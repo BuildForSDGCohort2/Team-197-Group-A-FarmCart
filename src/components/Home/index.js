@@ -8,6 +8,7 @@ import "./home.css";
 const Home = pure(() => {
   const dataUrl = "https://fakestoreapi.com/products";
   let [products, setProducts] = useState([]);
+  const [error, setError] = useState({ err: null });
 
   useEffect(() => {
     fetch(dataUrl)
@@ -15,7 +16,7 @@ const Home = pure(() => {
       .then((data) => {
         setProducts(data);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => setError({ err }));
   }, [dataUrl]);
 
   const productsDOM = products && products.map((product) => (
@@ -47,6 +48,7 @@ const Home = pure(() => {
   return (
     <div className="home">
       <h1>Home</h1>
+      <div>{ error && `There was an error: ${ error }` }</div>
       <div className="products">{ productsDOM }</div>
     </div>
   ); // return
