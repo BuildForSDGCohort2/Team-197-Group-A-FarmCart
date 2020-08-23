@@ -1,0 +1,46 @@
+.navbar {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-size: 0.8em;
+  font-weight: 600;
+  max-width: 100%;
+}
+
+.navbar>li {
+  margin: 0 10px;
+}
+
+.navbar>li>a {
+  text-decoration: none;
+  color: black;
+}
+
+.navbar>li>a:hover {
+  /* color: #FF3D00; */
+  color: #76ff03;
+}
+
+.selected-link {
+  color: #FF3D00;
+}
+
+.nav-icon {
+  margin-right: 2px;
+  margin-bottom: -3px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.1em;
+    margin-left: -40px;
+  }  
+
+  .navbar>li {
+    margin: 7px 5px;
+  }
+}
