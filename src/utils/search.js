@@ -11,7 +11,7 @@ function search(needle, haystack) {
 
   if (needle.length > 0) {
     needle = String(needle).toLocaleLowerCase();
-  } else { return null; };
+  } else { return null; }
 
   haystack.map((obj) => {
     const keys = Object.keys(obj);

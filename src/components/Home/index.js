@@ -50,7 +50,7 @@ const Home = pure(() => {
       <div className="products">{ productsDOM }</div>
     </div>
   ); // return
-}) // Home
+}); // Home
 
 export default Home;
 
