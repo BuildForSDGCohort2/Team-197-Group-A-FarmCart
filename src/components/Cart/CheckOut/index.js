@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 function CheckOut() {
   return (
     <div>
       <h1>Check Out</h1>
     </div>
-  )
-}; // CheckOut
+  );
+} // CheckOut
 
 export default CheckOut;

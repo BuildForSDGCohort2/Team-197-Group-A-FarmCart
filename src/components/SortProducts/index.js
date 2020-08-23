@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 function SortProducts() {
   return (
     <div>
       <h1>Sort Products</h1>
     </div>
-  )
-}; // SortProducts
+  );
+} // SortProducts
 
 export default SortProducts;

@@ -8,22 +8,21 @@
   max-width: 100%;
 }
 
-.navbar>li {
+.navbar > li {
   margin: 0 10px;
 }
 
-.navbar>li>a {
+.navbar > li > a {
   text-decoration: none;
   color: black;
 }
 
-.navbar>li>a:hover {
-  /* color: #FF3D00; */
+.navbar > li > a:hover {
   color: #76ff03;
 }
 
 .selected-link {
-  color: #FF3D00;
+  color: #FF3d00;
 }
 
 .nav-icon {
@@ -40,7 +39,7 @@
     margin-left: -40px;
   }  
 
-  .navbar>li {
+  .navbar > li {
     margin: 7px 5px;
   }
 }

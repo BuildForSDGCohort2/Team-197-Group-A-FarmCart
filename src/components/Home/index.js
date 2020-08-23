@@ -1,6 +1,6 @@
 // Modules
 import React, { useEffect, useState } from "react";
-import { pure } from 'recompose';
+import { pure } from "recompose";
 
 // Utils
 import "./home.css";
@@ -18,7 +18,7 @@ const Home = pure(() => {
       .catch((err) => console.error(err));
   }, [dataUrl]);
 
-  const productsDOM = products && products.map(product => (
+  const productsDOM = products && products.map((product) => (
     <div className="product-card" key={product.id}>
       <b>{product.title}</b>
       <br />
@@ -42,7 +42,7 @@ const Home = pure(() => {
       {product.category}
       <br />
     </div>
-  )) // products.map
+  )); // products.map
 
   return (
     <div className="home">
@@ -50,7 +50,7 @@ const Home = pure(() => {
       <div className="products">{ productsDOM }</div>
     </div>
   ); // return
-}); // Home
+}) // Home
 
 export default Home;
 

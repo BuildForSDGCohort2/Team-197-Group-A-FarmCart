@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 function Admin() {
   return (
     <div>
       <h1>Admin</h1>
     </div>
-  )
-}; // Admin
+  );
+} // Admin
 
 export default Admin;
 

@@ -11,7 +11,7 @@ function search(needle, haystack) {
 
   if (needle.length > 0) {
     needle = String(needle).toLocaleLowerCase();
-  } else return;
+  } else { return null; };
 
   haystack.map((obj) => {
     const keys = Object.keys(obj);
@@ -22,7 +22,7 @@ function search(needle, haystack) {
         results.push(obj);
       }
     });
-  });
+  }); // haystack.map
 
   // Get rid of duplicates & convert the new set back to array
   results = Array.from(new Set(results));

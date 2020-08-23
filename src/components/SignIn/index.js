@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 function SignIn() {
   return (
     <div>
       <h1>Sign In</h1>
     </div>
-  )
-}; // SignIn
+  );
+} // SignIn
 
 export default SignIn;
 
@@ -14,7 +14,7 @@ export default SignIn;
 // POST /sign-in
 
 /**  
-Credentials ={
+Credentials = {
   email, 
   password
 }

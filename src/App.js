@@ -1,34 +1,30 @@
 // Modules
-import React from 'react';
-import { 
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Utils
-import './App.css';
-import * as ROUTES from './constants/routes';
+import "./App.css";
+import * as ROUTES from "./constants/routes";
 
 // Components
-import About from './components/About';
-import Admin from './components/Admin';
-import Contact from './components/Contact';
-import Dashboard from './components/Dashboard';
-import Footer from './components/Footer';
-import Home from './components/Home';
-import Navbar from './components/Navbar';
-import AddProduct from './components/Products/AddProduct';
-import EditProduct from './components/Products/EditProduct';
-import ProductDetails from './components/Products/ProductDetails';
-import Products from './components/Products/AllProducts';
-// import AddPost from './components/Blog/AddPost';
-// import EditPost from './components/Blog/EditPost';
-// import ViewPost from './components/Blog/ViewPost';
-// import Posts from './components/Blog/ViewPosts';
-import Profile from './components/Profile';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
+import About from "./components/About";
+import Admin from "./components/Admin";
+import Contact from "./components/Contact";
+import Dashboard from "./components/Dashboard";
+import Footer from "./components/Footer";
+import Home from "./components/Home";
+import Navbar from "./components/Navbar";
+import AddProduct from "./components/Products/AddProduct";
+import EditProduct from "./components/Products/EditProduct";
+import ProductDetails from "./components/Products/ProductDetails";
+import Products from "./components/Products/AllProducts";
+// import AddPost from "./components/Blog/AddPost";
+// import EditPost from "./components/Blog/EditPost";
+// import ViewPost from "./components/Blog/ViewPost";
+// import Posts from "./components/Blog/ViewPosts";
+import Profile from "./components/Profile";
+import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
 
 function App() {
   return (
@@ -61,6 +57,6 @@ function App() {
       <Footer />
     </Router>
   ); // return
-}; // App
+} // App
 
 export default App;

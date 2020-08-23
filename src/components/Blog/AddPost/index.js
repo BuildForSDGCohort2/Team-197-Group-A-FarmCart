@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 function AddPost() {
   return (
     <div>
       <h1>Add Product</h1>
     </div>
-  )
-}; // AddPost
+  );
+} // AddPost
 
 export default AddPost;
 

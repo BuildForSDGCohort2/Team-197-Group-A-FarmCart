@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 function ViewPost() {
   return (
     <div>
       <h1>View Post</h1>
     </div>
-  )
-}; // ViewPost
+  );
+} // ViewPost
 
 export default ViewPost;
 

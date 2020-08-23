@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 function AllPosts() {
   return (
     <div>
       <h1>All Posts</h1>
     </div>
-  )
-}; // AllPosts
+  );
+} // AllPosts
 
 export default AllPosts;
 

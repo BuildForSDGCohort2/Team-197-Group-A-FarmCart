@@ -1,6 +1,6 @@
 // Modules
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 // Utils
 import "./navbar.css";
@@ -95,6 +95,6 @@ function Navbar() {
       </nav>
     </div>
   ); // return
-}; // Navbar
+} // Navbar
 
 export default Navbar;

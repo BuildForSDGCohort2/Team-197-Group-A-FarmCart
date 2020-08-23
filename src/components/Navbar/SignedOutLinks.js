@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 function SignedOutLinks() {
   return (
     <div>
       <h1>SignedOutLinks</h1>
     </div>
-  )
-}; // SignedOutLinks
+  );
+} // SignedOutLinks
 
 export default SignedOutLinks;
