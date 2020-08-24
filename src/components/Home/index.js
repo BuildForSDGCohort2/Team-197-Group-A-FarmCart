@@ -4,11 +4,12 @@ import { pure } from "recompose";
 
 // Utils
 import "./home.css";
+import ErrorDiv from "../ErrorDiv";
 
 const Home = pure(() => {
   const dataUrl = "https://fakestoreapi.com/products";
-  let [products, setProducts] = useState([]);
-  const [error, setError] = useState({ err: null });
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetch(dataUrl)
@@ -19,37 +20,39 @@ const Home = pure(() => {
       .catch((err) => setError({ err }));
   }, [dataUrl]);
 
-  const productsDOM = products && products.map((product) => (
-    <div className="product-card" key={product.id}>
-      <b>{product.title}</b>
-      <br />
-      <img
-        src={product.image}
-        alt={product.title}
-        style={{
-          height: 100,
-          width: 150,
-          padding: 3,
-        }}
-      />
-      <br />
-      <span className="labels">Price: </span>
-      {product.price}
-      <br />
-      <span className="labels">Description: </span>
-      {product.description}
-      <br />
-      <span className="labels">Category: </span>
-      {product.category}
-      <br />
-    </div>
-  )); // products.map
+  const productsDOM =
+    products &&
+    products.map((product) => (
+      <div className="product-card" key={product.id}>
+        <b>{product.title}</b>
+        <br />
+        <img
+          src={product.image}
+          alt={product.title}
+          style={{
+            height: 100,
+            width: 150,
+            padding: 3,
+          }}
+        />
+        <br />
+        <span className="labels">Price: </span>
+        {product.price}
+        <br />
+        <span className="labels">Description: </span>
+        {product.description}
+        <br />
+        <span className="labels">Category: </span>
+        {product.category}
+        <br />
+      </div>
+    )); // products.map
 
   return (
     <div className="home">
       <h1>Home</h1>
-      <div>{ error && `There was an error: ${ error }` }</div>
-      <div className="products">{ productsDOM }</div>
+      <ErrorDiv error={error} />
+      <div className="products">{productsDOM}</div>
     </div>
   ); // return
 }); // Home
