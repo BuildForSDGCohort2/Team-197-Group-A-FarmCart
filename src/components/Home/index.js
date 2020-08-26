@@ -6,7 +6,7 @@ import "./home.css";
 
 import Products from "../Products/AllProducts";
 
-const Home = () => {
+function Home() {
   return (
     <div className="home">
       <br/>
