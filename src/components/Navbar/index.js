@@ -36,7 +36,7 @@ function Navbar() {
           <li>
             <NavLink 
               className="active" 
-              aria-current="page" 
+              aria-current="page"
               to={ROUTES.HOME}
             >
               <HomeIcon 

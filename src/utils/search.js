@@ -1,5 +1,6 @@
 /**
- * search loops through the haystack in search of the needle
+ * search is a pure function that loops through the haystack 
+ * in search of the needle.
  *
  * @param {*} needle string
  * @param {*} haystack array
@@ -11,15 +12,17 @@ function search(needle, haystack) {
 
   if (needle.length > 0) {
     needle = String(needle).toLocaleLowerCase();
-  } else { return null; }
+  } else {
+    return null;
+  }
 
   haystack.map((obj) => {
     const keys = Object.keys(obj);
     // Might result in duplication since the needle may
     // appear in several places within obj
-    const matched = keys.map((key) => {
+    return keys.map((key) => {
       if (String(obj[key]).toLocaleLowerCase().includes(needle)) {
-        results.push(obj);
+        return results.push(obj);
       }
     });
   }); // haystack.map

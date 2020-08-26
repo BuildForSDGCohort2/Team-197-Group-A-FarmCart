@@ -1,5 +1,5 @@
 // Modules
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Utils
@@ -7,28 +7,31 @@ import "./App.css";
 import * as ROUTES from "./constants/routes";
 
 // Components
-import About from "./components/About";
-import Admin from "./components/Admin";
-import Contact from "./components/Contact";
-import Dashboard from "./components/Dashboard";
-import Footer from "./components/Footer";
+import Loading from "./components/Loading";
 import Home from "./components/Home";
-import Navbar from "./components/Navbar";
-import AddProduct from "./components/Products/AddProduct";
-import EditProduct from "./components/Products/EditProduct";
-import ProductDetails from "./components/Products/ProductDetails";
-import Products from "./components/Products/AllProducts";
-// import AddPost from "./components/Blog/AddPost";
-// import EditPost from "./components/Blog/EditPost";
-// import ViewPost from "./components/Blog/ViewPost";
-// import Posts from "./components/Blog/ViewPosts";
-import Profile from "./components/Profile";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
+// const Home           = lazy(() => import("./components/Home"));
+const About          = lazy(() => import("./components/About"));
+const Admin          = lazy(() => import("./components/Admin"));
+const Contact        = lazy(() => import("./components/Contact"));
+const Dashboard      = lazy(() => import("./components/Dashboard"));
+const Footer         = lazy(() => import("./components/Footer"));
+const Navbar         = lazy(() => import("./components/Navbar"));
+const AddProduct     = lazy(() => import("./components/Products/AddProduct"));
+const EditProduct    = lazy(() => import("./components/Products/EditProduct"));
+const ProductDetails = lazy(() => import("./components/Products/ProductDetails"));
+const Products       = lazy(() => import("./components/Products/AllProducts"));
+// const AddPost        = lazy(() => import("./components/Blog/AddPost"));
+// const EditPost       = lazy(() => import("./components/Blog/EditPost"));
+// const ViewPost       = lazy(() => import("./components/Blog/ViewPost"));
+// const Posts          = lazy(() => import("./components/Blog/ViewPosts"));
+const Profile        = lazy(() => import("./components/Profile"));
+const SignIn         = lazy(() => import("./components/SignIn"));
+const SignUp         = lazy(() => import("./components/SignUp"));
 
 function App() {
   return (
     <Router>
+      <Suspense fallback={<Loading />} >
       <div className="App">
         <header className="App-header">
           <Navbar />
@@ -36,6 +39,7 @@ function App() {
 
         <main>
           <div>
+            
             <Switch>
               <Route exact path={ROUTES.HOME} component={Home} />
               <Route path={ROUTES.ABOUT} component={About} />
@@ -50,11 +54,13 @@ function App() {
               <Route path={ROUTES.SIGN_IN} component={SignIn} />
               <Route path={ROUTES.SIGN_UP} component={SignUp} />
             </Switch>
+            
           </div>
         </main>
       </div>
 
       <Footer />
+      </Suspense>
     </Router>
   ); // return
 } // App

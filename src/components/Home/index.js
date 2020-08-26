@@ -1,61 +1,19 @@
 // Modules
-import React, { useEffect, useState } from "react";
-import { pure } from "recompose";
+import React from "react";
 
 // Utils
 import "./home.css";
-import ErrorDiv from "../ErrorDiv";
 
-const Home = pure(() => {
-  const dataUrl = "https://fakestoreapi.com/products";
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState("");
+import Products from "../Products/AllProducts";
 
-  useEffect(() => {
-    fetch(dataUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-      })
-      .catch((err) => setError({ err }));
-  }, [dataUrl]);
-
-  const productsDOM =
-    products &&
-    products.map((product) => (
-      <div className="product-card" key={product.id}>
-        <b>{product.title}</b>
-        <br />
-        <img
-          src={product.image}
-          alt={product.title}
-          style={{
-            height: 100,
-            width: 150,
-            padding: 3,
-          }}
-        />
-        <br />
-        <span className="labels">Price: </span>
-        {product.price}
-        <br />
-        <span className="labels">Description: </span>
-        {product.description}
-        <br />
-        <span className="labels">Category: </span>
-        {product.category}
-        <br />
-      </div>
-    )); // products.map
-
+const Home = () => {
   return (
     <div className="home">
-      <h1>Home</h1>
-      <ErrorDiv error={error} />
-      <div className="products">{productsDOM}</div>
+      <br/>
+      <Products />
     </div>
   ); // return
-}); // Home
+} // Home
 
 export default Home;
 
