@@ -1,31 +1,37 @@
 // Modules
-import React, { useEffect, useState } from "react";
-import { pure } from "recompose";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 // Utils
 import "./allProducts.css";
 import search from "../../../utils/search";
 
+// Context
+import { ProductsContext } from "../../../contexts/ProductsContext";
+
 // Components
 import ErrorDiv from "../../ErrorDiv";
 import AddToCart from "../../Cart/AddToCart";
 
-const Products = pure(() => {
-  const dataUrl = "https://fakestoreapi.com/products";
-  const [products, setProducts] = useState([]);
+const Products = () => {
+  const { products } = useContext(ProductsContext);
+  const history = useHistory();
+  
+  // State.
+  // const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
   const [needle, setNeedle] = useState("");
+  const [searchReport, setSearchReport] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  useEffect(() => {
-    fetch(dataUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-      })
-      .catch((err) => setError({ err }));
-  }, [dataUrl]);
+  if (!products) {
+    setError("Fetch error!")
+  }
 
+  const onClickCardHandler = (id) => {
+    history.push(`/products/${id}`);
+  }
+  
   const onChangeHandler = (evt) => {
     setNeedle(evt.target.value);
   };
@@ -33,8 +39,7 @@ const Products = pure(() => {
   const onSubmitHandler = (evt) => {
     evt.preventDefault();
     if (needle.length === 0) {
-      document.getElementById("searchResultsReport").innerHTML =
-        "Nothing Found!";
+      setSearchReport("Nothing Found!");
       return;
     } else {
       const results = search(needle, products);
@@ -44,26 +49,32 @@ const Products = pure(() => {
       let found;
       switch (results.length) {
         case 0:
-          found = `No Items Found!`;
+          found = "No Items Found!";
+          setSearchReport(found);
           break;
         case 1:
-          found = `1 Item Found`;
+          found = "1 Item Found";
+          setSearchReport(found);
           break;
         default:
           found = `${results.length} Items Found`;
+          setSearchReport(found);
       }
-      document.getElementById("searchResultsReport").innerHTML = found;
-    }
-  };
+    } // else
+  }; // onSubmitHandler
 
   // Render the fetched products by default.
-  // If there are any search results, return those instead.
+  // If there are any search results, render those instead.
   const itemsToRender = searchResults.length > 0 ? searchResults : products;
 
   const productsDOM =
     itemsToRender &&
     itemsToRender.map((product) => (
-      <div className="product-card" key={product.id}>
+      <div 
+        className="product-card" 
+        key={product.id}
+        onClick={() => onClickCardHandler(product.id)}
+      >
         <b>{product.title}</b>
         <br />
         <img
@@ -80,7 +91,7 @@ const Products = pure(() => {
         {product.price}
         <br />
         <span className="labels">Description: </span>
-        {product.description && String(product.description).substring(0, 170)}
+        {product.description && String(product.description).substring(0, 180)}
         <br />
         <span className="labels">Category: </span>
         {product.category && product.category}
@@ -95,7 +106,7 @@ const Products = pure(() => {
     <>
       <div className="search-area">
         <div>
-          <span id="searchResultsReport"></span>
+          <span id="searchResultsReport">{searchReport && searchReport}</span>
         </div>
         <form onSubmit={onSubmitHandler}>
           <input
@@ -114,11 +125,11 @@ const Products = pure(() => {
 
       <div className="products-view">
         <ErrorDiv error={error} />
-        <div className="products">{productsDOM}</div>
+        <div className="products">{productsDOM}</div>        
       </div>
     </>
   ); // return
-}); // Products
+} // Products
 
 export default Products;
 

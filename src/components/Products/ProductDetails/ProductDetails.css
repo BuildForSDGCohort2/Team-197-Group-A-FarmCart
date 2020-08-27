@@ -1,0 +1,25 @@
+.product-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 60px auto;
+  margin-top: 10px;
+  max-width: 40%;
+  position: relative;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .product-details {
+    max-width: 100%;
+  }
+}
+
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (max-width: 768px) {
+  .product-details {
+    max-width: 70%;
+  }
+}
+

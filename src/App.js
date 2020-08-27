@@ -9,6 +9,8 @@ import * as ROUTES from "./constants/routes";
 // Components
 import Loading from "./components/Loading";
 import Home from "./components/Home";
+import ProductDetails from "./components/Products/ProductDetails";
+
 // const Home           = lazy(() => import("./components/Home"));
 const About          = lazy(() => import("./components/About"));
 const Admin          = lazy(() => import("./components/Admin"));
@@ -18,7 +20,6 @@ const Footer         = lazy(() => import("./components/Footer"));
 const Navbar         = lazy(() => import("./components/Navbar"));
 const AddProduct     = lazy(() => import("./components/Products/AddProduct"));
 const EditProduct    = lazy(() => import("./components/Products/EditProduct"));
-const ProductDetails = lazy(() => import("./components/Products/ProductDetails"));
 const Products       = lazy(() => import("./components/Products/AllProducts"));
 // const AddPost        = lazy(() => import("./components/Blog/AddPost"));
 // const EditPost       = lazy(() => import("./components/Blog/EditPost"));
