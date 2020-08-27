@@ -14,14 +14,13 @@ function ProductDetails() {
   let product;
 
   function setProduct(products) {
-    if (products !== null || products !== undefined) {
-      product = products.filter(product => Number(product.id) === Number(id));
+    if (products !== null) {
+      product = products.filter((product) => Number(product.id) === Number(id));
     }
   }
-
   setProduct(products);
   
-  if (product[0] != null) {
+  if (product[0] !== null) {
     return (
       <div className="product-details">
         <h3>{product[0].title}</h3>
@@ -51,7 +50,6 @@ function ProductDetails() {
   } else {
     return null;
   }
-  
 } // ProductDetails
 
 export default ProductDetails;

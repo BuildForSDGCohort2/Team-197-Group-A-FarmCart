@@ -10,7 +10,6 @@ import search from "../../../utils/search";
 import { ProductsContext } from "../../../contexts/ProductsContext";
 
 // Components
-import ErrorDiv from "../../ErrorDiv";
 import AddToCart from "../../Cart/AddToCart";
 
 const Products = () => {
@@ -19,18 +18,13 @@ const Products = () => {
   
   // State.
   // const [products, setProducts] = useState([]);
-  const [error, setError] = useState("");
   const [needle, setNeedle] = useState("");
   const [searchReport, setSearchReport] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  if (!products) {
-    setError("Fetch error!")
-  }
-
   const onClickCardHandler = (id) => {
     history.push(`/products/${id}`);
-  }
+  };
   
   const onChangeHandler = (evt) => {
     setNeedle(evt.target.value);
@@ -59,7 +53,7 @@ const Products = () => {
         default:
           found = `${results.length} Items Found`;
           setSearchReport(found);
-      }
+      } // switch
     } // else
   }; // onSubmitHandler
 
@@ -124,8 +118,7 @@ const Products = () => {
       </div>
 
       <div className="products-view">
-        <ErrorDiv error={error} />
-        <div className="products">{productsDOM}</div>        
+        <div className="products">{productsDOM}</div>
       </div>
     </>
   ); // return

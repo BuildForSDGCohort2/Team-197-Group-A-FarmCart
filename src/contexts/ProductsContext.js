@@ -1,14 +1,9 @@
-import React, { 
-  createContext, 
-  useState, 
-  useMemo
-} from "react";
+import React, { createContext, useState, useMemo } from "react";
 
 export const ProductsContext = createContext([]);
 
 const SetProductsContext = ({ children }) => {
   const dataUrl = "https://fakestoreapi.com/products";
-  
   const [products, setProducts] = useState([]);
 
   useMemo(() => {
@@ -25,7 +20,7 @@ const SetProductsContext = ({ children }) => {
       {children}
     </ProductsContext.Provider>
   );
-} // setProductsContext
+}; // setProductsContext
 
 const ProductsProvider = SetProductsContext;
 

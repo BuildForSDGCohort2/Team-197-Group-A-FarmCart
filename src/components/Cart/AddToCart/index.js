@@ -11,7 +11,8 @@ import "./addToCart.css";
  */
 function AddToCart({ id }) {
   id = id.toString();
-  const onClickHandler = () => {
+  const onClickHandler = (evt) => {
+    evt.stopPropagation();
     window.alert(`Item with id ${id} will be added to cart`);
   };
 
