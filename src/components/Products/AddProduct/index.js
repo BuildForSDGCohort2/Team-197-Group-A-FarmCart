@@ -8,7 +8,8 @@ import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
+// import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
@@ -77,7 +78,7 @@ function AddProduct() {
       </div>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <EditIcon />
+          <AddIcon fontSize="large"/>
         </Avatar>
 
         <Typography component="h1" variant="h5">
