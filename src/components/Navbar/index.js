@@ -12,6 +12,7 @@ import { lightGreen } from "@material-ui/core/colors";
 
 // Material UI Icons
 import HomeIcon from "@material-ui/icons/Home";
+import LinkIcon from '@material-ui/icons/Link';
 import InfoIcon from "@material-ui/icons/Info";
 import ContactsIcon from "@material-ui/icons/Contacts";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
@@ -44,6 +45,20 @@ function Navbar() {
                 style={style.style1} 
               />
               Home
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              className="selected-link"
+              aria-current="page"
+              to={ROUTES.ADD_PRODUCT}
+            >
+              <LinkIcon
+                className="nav-icon" 
+                style={style.style1} 
+              />
+              Add Product
             </NavLink>
           </li>
 
