@@ -11,6 +11,9 @@ const SetProductsContext = ({ children }) => {
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
+        if ("localStorage" in window && localStorage["window"] !== null) {
+          window.localStorage.setItem("products", JSON.stringify(data));
+        }
       })
       .catch((err) => console.log({ err }));
   }, []);

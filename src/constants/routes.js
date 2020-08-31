@@ -1,4 +1,5 @@
 export const HOME = "/";
+export const OTHER_PAGES = "/other-pages";
 export const ABOUT = "/about";
 export const ADMIN = "/admin";
 export const CONTACT = "/contact-us";

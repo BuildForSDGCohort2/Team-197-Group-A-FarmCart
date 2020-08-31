@@ -1,21 +1,21 @@
 // Modules
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 // Utils
 import "./allProducts.css";
 import search from "../../../utils/search";
 
-// Context
-import { ProductsContext } from "../../../contexts/ProductsContext";
-
 // Components
 import AddToCart from "../../Cart/AddToCart";
 
-const Products = () => {
-  const { products } = useContext(ProductsContext);
+const Products = ({ products }) => {
   const history = useHistory();
-  
+
+  if (products.length === 0) {
+    products = JSON.parse(window.localStorage.getItem("products"));
+  }
+
   // State.
   // const [products, setProducts] = useState([]);
   const [needle, setNeedle] = useState("");
@@ -122,7 +122,7 @@ const Products = () => {
       </div>
     </>
   ); // return
-} // Products
+}; // Products
 
 export default Products;
 
