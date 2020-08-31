@@ -5,14 +5,17 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 // Context
+import UserProvider from "./contexts/UserContext";
 import ProductsProvider from "./contexts/ProductsContext";
 
 ReactDOM.render(
-  <ProductsProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </ProductsProvider>,
+  <UserProvider>
+    <ProductsProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </ProductsProvider>
+  </UserProvider>,
   document.getElementById("root")
 );
 
