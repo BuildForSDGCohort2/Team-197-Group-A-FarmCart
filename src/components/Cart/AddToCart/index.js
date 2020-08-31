@@ -7,7 +7,7 @@ import "./addToCart.css";
  * the specified id to cart.
  *
  * @param {*} id
- * @returns
+ * @returns div
  */
 function AddToCart({ id }) {
   id = id.toString();
