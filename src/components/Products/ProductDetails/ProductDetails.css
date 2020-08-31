@@ -8,6 +8,21 @@
   position: relative;
 }
 
+.edit-button {
+  font-size: 0.95em;
+  font-weight: bolder;
+  margin-top: 15px;
+  padding: 2px 6px;
+  float: left;
+  position: absolute;
+  bottom: 5px;
+  max-width: 120px;
+}
+
+.edit-button:hover {
+  background-color: #ff6600;
+}
+
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (max-width: 768px) {
   .product-details {

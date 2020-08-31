@@ -3,11 +3,11 @@ import React from "react";
 
 import Products from "../Products/AllProducts";
 
-function Home() {
+function Home({products}) {
   return (
     <div className="home">
       <br/>
-      <Products />
+      <Products products={products} />
     </div>
   ); // return
 } // Home
