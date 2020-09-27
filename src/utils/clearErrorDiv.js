@@ -11,8 +11,8 @@
   ) {
     const timer = setInterval(() => {
       duration -= 1;
-      if (duration ===0) {
-        document.getElementById(String(divId)).textContent = ""
+      if (duration === 0) {
+        document.getElementById(String(divId)).textContent = "";
         clearInterval(timer);
         return;
       }
