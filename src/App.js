@@ -1,3 +1,7 @@
+// Declare FB global variable, visible throughout the app.
+/*global FB*/
+/*eslint no-undef: "error"*/
+
 // Modules
 import React, { lazy, Suspense, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -7,45 +11,81 @@ import "./App.css";
 import * as ROUTES from "./constants/routes";
 
 // Context
-import { UserContext } from "./contexts/UserContext";
 import { ProductsContext } from "./contexts/ProductsContext";
 
 // Components
 import Loading from "./components/Loading";
 import Home from "./components/Home";
-import ProductDetails from "./components/Products/ProductDetails";
+import SignUp from "./components/SignUp/SignUp";
+import SignIn from "./components/SignIn/SignIn";
 
-const Products = lazy(() => import("./components/Products/AllProducts"));
-const About = lazy(() => import("./components/About"));
-const Admin = lazy(() => import("./components/Admin"));
+import Products from "./components/Products/AllProducts";
+import ProductDetails from "./components/Products/ProductDetails";
+import AddProduct from "./components/Products/AddProduct";
+import EditProduct from "./components/Products/EditProduct";
+
+const About = lazy(() => import("./components/About/About"));
 const Contact = lazy(() => import("./components/Contact"));
-const Dashboard = lazy(() => import("./components/Dashboard"));
+
 const Footer = lazy(() => import("./components/Footer"));
 const Navbar = lazy(() => import("./components/Navbar"));
-const AddProduct = lazy(() => import("./components/Products/AddProduct"));
-const EditProduct = lazy(() => import("./components/Products/EditProduct"));
+
+const ViewCart = lazy(() => import("./components/Cart/ViewCart/ViewCart"));
+
 // const Posts          = lazy(() => import("./components/Blog/ViewPosts"));
 // const ViewPost       = lazy(() => import("./components/Blog/ViewPost"));
 // const AddPost        = lazy(() => import("./components/Blog/AddPost"));
 // const EditPost       = lazy(() => import("./components/Blog/EditPost"));
-const Profile = lazy(() => import("./components/Profile"));
-const SignIn = lazy(() => import("./components/SignIn"));
-const SignUp = lazy(() => import("./components/SignUp"));
+
+const Profile = lazy(() => import("./components/Profile/ViewProfile"));
+const Dashboard = lazy(() => import("./components/Dashboard"));
+const Admin = lazy(() => import("./components/Admin/Admin"));
 
 /**
- * App is the main component of the entire application. 
+ * App is the main component of the entire application.
  *
  * @returns {object} router
  */
 function App() {
-  const { user } = useContext(UserContext);
+  // Enable Facebook Analytics for entire app
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId: "{your-app-id}",
+      cookie: true,
+      xfbml: true,
+      version: "{api-version}",
+    });
+
+    FB.AppEvents.logPageView();
+  };
+
+  (function (d, s, id) {
+    var js,
+      fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+      return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  })(document, "script", "facebook-jssdk");
+
+  // Global app context variables
   const { products } = useContext(ProductsContext);
-  console.log(`User: ${user}`);
 
   return (
     <Router>
       <Suspense fallback={<Loading />}>
         <div className="App">
+          <div id="fb-root"></div>
+          <script
+            async
+            defer
+            crossOrigin="anonymous"
+            src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=982705708861822&autoLogAppEvents=1"
+            nonce="AXsd99GC"
+          ></script>
           <header className="App-header">
             <Navbar />
           </header>
@@ -59,6 +99,7 @@ function App() {
                   component={() => <Home products={products} />}
                 />
                 <Route path={ROUTES.ABOUT} component={About} />
+                <Route path={ROUTES.VIEW_CART} component={ViewCart} />
                 <Route path={ROUTES.ADMIN} component={Admin} />
                 <Route path={ROUTES.CONTACT} component={Contact} />
                 <Route path={ROUTES.DASHBOARD} component={Dashboard} />
@@ -80,7 +121,7 @@ function App() {
                 />
                 <Route path={ROUTES.PROFILE} component={Profile} />
                 <Route path={ROUTES.SIGN_IN} component={SignIn} />
-                <Route path={ROUTES.SIGN_UP} component={SignUp} />
+                <Route exact path={ROUTES.SIGN_UP} render={() => <SignUp />} />
                 <Route component={Page404} />
               </Switch>
             </div>

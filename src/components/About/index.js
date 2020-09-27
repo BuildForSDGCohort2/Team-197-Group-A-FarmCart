@@ -1,14 +1,3 @@
-import React from "react";
-
-function About() {
-  return (
-    <div>
-      <h1>About</h1>
-    </div>
-  );
-} // About
+import About from "./About";
 
 export default About;
-
-// Route:
-// GET /about

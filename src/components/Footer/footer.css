@@ -1,11 +1,15 @@
-.footer {
+footer {
+  min-height: 140px;
+  width: 100%;
+  background-color: rgb(216, 216, 216);
+  padding-bottom: 30px;
+}
+
+.footer-header {
+  background-color: #fff;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  min-height: 150px;
-  width: 100%;
-  background-color: #fff;
-  margin-top: 10px;
 }
 
 .farm-txt {
@@ -16,3 +20,33 @@
   color: #000;
 }
 
+.footer-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: -19px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (max-width: 768px) {
+
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .footer-body {
+    display: flex;
+    flex-direction: column;
+    margin-top: -15px;
+  }
+
+  .footer-column {
+    margin-left: 30%;
+  }
+}
