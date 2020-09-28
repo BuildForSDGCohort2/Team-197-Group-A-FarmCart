@@ -1,0 +1,28 @@
+.firebaseui-idp-list {
+  list-style-type: none;
+}
+
+.firebaseui-list-item {
+  margin: 9px 0px;
+}
+
+.firebaseui-idp-button {
+  width: 250px;
+  height: 40px;
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 0;
+  padding-left: 15px;
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+}
+
+.firebaseui-idp-icon {
+  width: 50px;
+  height: 20px;
+}
+
+.firebaseui-idp-text-short {
+  display: none;
+}

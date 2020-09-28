@@ -1,0 +1,15 @@
+.delete-product {
+  font-size: 0.95em;
+  font-weight: bolder;
+  margin-top: 5px;
+  /* margin-right: 10px; */
+  /* padding: 2px 6px; */
+  float: right;
+}
+
+.delete-product:hover {
+  /* background-color: red; */
+  padding: 2px 6px;
+  background-image: linear-gradient(to right, yellow, rgb(255, 66, 59));
+  color: #000;
+}
