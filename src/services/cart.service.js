@@ -1,3 +1,6 @@
+import { firebase } from "../components/FirebaseAuth";
+import "firebase/firestore";
+
 // Cart object to hold all cart operations.
 const CartService = {};
 
@@ -10,18 +13,65 @@ const CartService = {};
 CartService.createCart = () => {
   const user = JSON.parse(window.localStorage.getItem("user"));
   let cartPrefix;
-  if (user) {
-    cartPrefix = user.uid.substring(user.uid.length - 4);
-    cartPrefix = cartPrefix ? cartPrefix : "cart";
-  }
-  const id = Date.now();
-  const cartId = cartPrefix + String(id).substring(String(id).length - 4);
+  try {
+    if (user) {
+      cartPrefix = user.uid.substring(user.uid.length - 4);
+      cartPrefix = cartPrefix ? cartPrefix : "cart";
+    }
+    const id = Date.now();
+    const cartId = cartPrefix + String(id).substring(String(id).length - 4);
 
-  return {
-    cartId,
-    items: [],
-  };
+    return {
+      cartId,
+      items: [],
+      uid: user.uid,
+    };
+  } catch (error) {
+    console.log(error.message);
+  }
 }; // createCart
+
+/**
+ * CartService.retrieveCart fetches the current user's cart
+ * from the database and puts it in the localStorage.
+ *
+ * @returns undefined
+ */
+CartService.retrieveCartFromDb = () => {
+  const user = JSON.parse(window.localStorage.getItem("user"));
+
+  try {
+    if (user.uid) {
+      async function fetchCart() {
+        await firebase
+          .firestore()
+          .collection("carts")
+          .doc(user.uid)
+          .get()
+          .then((snapshot) => {
+            const cart = snapshot.data();
+            if (
+              window.localStorage !== null &&
+              "localStorage" in window &&
+              cart
+            ) {
+              window.localStorage.removeItem("myCart");
+              window.localStorage.setItem("myCart", JSON.stringify(cart));
+              return true;
+            }
+          })
+          .catch((error) => {
+            console.log(error.message);
+            return false;
+          });
+      } // fetchCart
+
+      fetchCart();
+    } // if
+  } catch (error) {
+    console.log("User not signed in!");
+  }
+}; // retrieveCart
 
 /**
  * CartService.totalItemsInCart takes a cart object and adds
@@ -32,11 +82,15 @@ CartService.createCart = () => {
  */
 CartService.totalItemsInCart = (cartObject) => {
   let allItemsInCart = 0;
-  cartObject.items.forEach((item) => {
-    allItemsInCart += item.quantity;
-  });
+  try {
+    cartObject.items.forEach((item) => {
+      allItemsInCart += item.quantity;
+    });
 
-  return allItemsInCart;
+    return allItemsInCart;
+  } catch (error) {
+    console.log(error);
+  }
 }; // totalItemsInCart
 
 /**
@@ -50,22 +104,21 @@ CartService.totalItemsInCart = (cartObject) => {
 CartService.addItemToCart = (cartObject, product) => {
   const updatedCart = {};
 
-  /** addItemToCart algo
+  /** addItemToCart algorithm
    *
-   * check if product exists in cart
-   * if so return the cart as it is
-   * if not, add product to cart
-   * grab everything in cartObject and put it in updatedCart
-   * return updatedCart
+   * Check if product exists in cart.
+   * If so return the cart as it is.
+   * If not, add product to cart.
+   * Grab everything in cartObject and put it in updatedCart.
+   * Return updatedCart.
    */
-
   if (cartObject.items) {
     if (cartObject.items.some((item) => item.id === product.id)) {
       window.alert("Item already in cart.");
       return cartObject;
     } else {
       cartObject.items.push(product);
-      window.alert("Item successfully added to cart.");
+      window.alert("Item added to cart successfully.");
     }
   } else {
     cartObject.items.push(product);
@@ -75,75 +128,39 @@ CartService.addItemToCart = (cartObject, product) => {
   return updatedCart;
 }; // addItemToCart
 
+/**
+ * CartService.getCartItems takes a cart object and returns
+ * an array of items in it.
+ *
+ * @param {Object} cartObject
+ * @returns {(Array|Object)} returns cart items arrays or an
+ * error object.
+ */
 CartService.getCartItems = (cartObject) => {
-  return cartObject.items;
-};
+  try {
+    return cartObject.items;
+  } catch (error) {
+    if (error) {
+      return false;
+    }
+  }
+}; // getCartItems
 
+/**
+ * CartService.getNumCartItems takes a cart object and returns
+ * the number of unique items in it.
+ *
+ * @param {Object} cartObject
+ * @returns {number} number of unique items in the cart.
+ */
 CartService.getNumCartItems = (cartObject) => {
-  return cartObject.items.length;
-};
+  try {
+    return cartObject.items.length;
+  } catch (error) {
+    if (error) {
+      return false;
+    }
+  }
+}; // getNumCartItems
 
 export default CartService;
-
-// Sample products; (test data)
-/* 
-const product1 = {
-  category: "men clothing",
-  id: 1,
-  unitOfMeasure: "Kg",
-  price: 109.95,
-  quantity: 2,
-  name: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-};
-
-const product2 = {
-  category: "men clothing",
-  id: 2,
-  unitOfMeasure: "Kg",
-  price: 22.3,
-  quantity: 3,
-  name: "Mens Casual Premium Slim Fit T-Shirts ",
-};
-
-const product5 = {
-  category: "jewelery",
-  id: 5,
-  unitOfMeasure: "Kg",
-  price: 695,
-  quantity: 1,
-  name:
-    "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
-};
-*/
-/* 
-CartService function signatures.
-  createCart, 
-  totalItemsInCart(cartObject), 
-  addItemToCart(cartObject, productObject),
-  getCartItems(cartObject),
-  getNumCartItems(cartObject),
-*/
-
-// Test the CartService methods.
-/* 
-const c2 = CartService.createCart();
-console.log("cart", c2);
-CartService.addItemToCart(c2, product5);
-CartService.addItemToCart(c2, product1);
-CartService.addItemToCart(c2, product2);
-console.log(`Number of items in cart`);
-console.log(CartService.getNumCartItems(c2));
-console.log("\n\n----------cart----------");
-console.log(CartService.getCartItems(c2));
-*/
-
-/** CartItem
- *
- * category,
- * id,
- * unitOfMeasure,
- * price,
- * quantity,
- * name,
- *
- */

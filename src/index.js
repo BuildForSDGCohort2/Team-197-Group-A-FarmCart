@@ -8,20 +8,12 @@ import * as serviceWorker from "./serviceWorker";
 // Context
 import ProductsProvider from "./contexts/ProductsContext";
 
-// const user = window.localStorage.getItem("user");
-// const UserContext = createContext([]);
-// const UserProvider = ({ children }) => {
-//   return (
-//     <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
-//   );
-// }; // UserProvider
-
 ReactDOM.render(
-    <ProductsProvider>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </ProductsProvider>,
+  <ProductsProvider>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </ProductsProvider>,
   document.getElementById("root")
 );
 

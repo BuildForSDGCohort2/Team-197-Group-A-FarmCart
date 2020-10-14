@@ -3,48 +3,57 @@
 /*eslint no-undef: "error"*/
 
 // Modules
-import React, { lazy, Suspense, useContext } from "react";
+import React, { Suspense, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Utils
 import "./App.css";
 import * as ROUTES from "./constants/routes";
 
+import CartService from "./services/cart.service";
+
 // Context
 import { ProductsContext } from "./contexts/ProductsContext";
 
-// Components
+// General Components
+import ProtectedRoute from "./components/ProtectedRoute";
 import Loading from "./components/Loading";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Home from "./components/Home";
-import SignUp from "./components/SignUp/SignUp";
-import SignIn from "./components/SignIn/SignIn";
+import SignUp from "./components/SignUp";
+import About from "./components/About/About";
+import Contact from "./components/Contact";
+import Tos from "./components/Legal/Tos";
+import PrivacyPolicy from "./components/Legal/PricacyPolicy";
+import CookiePolicy from "./components/Legal/CookiePolicy";
 
-import Products from "./components/Products/AllProducts";
-import ProductDetails from "./components/Products/ProductDetails";
+// Products components
 import AddProduct from "./components/Products/AddProduct";
+import Products from "./components/Products/AllProducts";
+import UserProducts from "./components/Products/UserProducts";
+import ProductDetails from "./components/Products/ProductDetails";
 import EditProduct from "./components/Products/EditProduct";
 
-const About = lazy(() => import("./components/About/About"));
-const Contact = lazy(() => import("./components/Contact"));
+import ViewCart from "./components/Cart/ViewCart/ViewCart";
 
-const Footer = lazy(() => import("./components/Footer"));
-const Navbar = lazy(() => import("./components/Navbar"));
+// Users components
+import EditProfile from "./components/Profile/EditProfile";
+import Profile from "./components/Profile/ViewProfile";
+// import UserProfile    from"./components/Profile/UserProfile";
+import Dashboard from "./components/Dashboard";
+import Admin from "./components/Admin/Admin";
 
-const ViewCart = lazy(() => import("./components/Cart/ViewCart/ViewCart"));
-
-// const Posts          = lazy(() => import("./components/Blog/ViewPosts"));
-// const ViewPost       = lazy(() => import("./components/Blog/ViewPost"));
-// const AddPost        = lazy(() => import("./components/Blog/AddPost"));
-// const EditPost       = lazy(() => import("./components/Blog/EditPost"));
-
-const Profile = lazy(() => import("./components/Profile/ViewProfile"));
-const Dashboard = lazy(() => import("./components/Dashboard"));
-const Admin = lazy(() => import("./components/Admin/Admin"));
+// Blog components
+// import Posts          from "./components/Blog/ViewPosts";
+// import ViewPost       from "./components/Blog/ViewPost";
+// import AddPost        from "./components/Blog/AddPost";
+// import EditPost       from "./components/Blog/EditPost";
 
 /**
  * App is the main component of the entire application.
  *
- * @returns {object} router
+ * @returns {Object} router
  */
 function App() {
   // Enable Facebook Analytics for entire app
@@ -71,8 +80,11 @@ function App() {
     fjs.parentNode.insertBefore(js, fjs);
   })(document, "script", "facebook-jssdk");
 
-  // Global app context variables
+  // Global app variables
   const { products } = useContext(ProductsContext);
+  const user = JSON.parse(window.localStorage.getItem("user"));
+
+  CartService.retrieveCartFromDb();
 
   return (
     <Router>
@@ -93,35 +105,66 @@ function App() {
           <main>
             <div>
               <Switch>
+                {/* Public routes */}
+                {/* home, signup, about, contact, tos, footer */}
                 <Route
                   exact
                   path={ROUTES.HOME}
                   component={() => <Home products={products} />}
                 />
-                <Route path={ROUTES.ABOUT} component={About} />
-                <Route path={ROUTES.VIEW_CART} component={ViewCart} />
-                <Route path={ROUTES.ADMIN} component={Admin} />
-                <Route path={ROUTES.CONTACT} component={Contact} />
-                <Route path={ROUTES.DASHBOARD} component={Dashboard} />
-                <Route path={ROUTES.ADD_PRODUCT} component={AddProduct} />
+                <Route exact path={ROUTES.SIGN_UP} render={() => <SignUp />} />
+                <Route exact path={ROUTES.ABOUT} component={About} />
+                <Route exact path={ROUTES.CONTACT} component={Contact} />
+                <Route exact path={ROUTES.TOS} component={Tos} />
+                <Route exact path={ROUTES.PRIVACY} component={PrivacyPolicy} />
                 <Route
                   exact
-                  path={ROUTES.EDIT_PRODUCT}
-                  render={() => <EditProduct products={products} />}
+                  path={ROUTES.COOKIE_POLICY}
+                  component={CookiePolicy}
                 />
+
+                <Route exact path={ROUTES.ADMIN} component={Admin} />
+                <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
+
                 <Route
                   exact
                   path={ROUTES.PRODUCTS}
                   render={() => <Products products={products} />}
                 />
+
                 <Route
                   exact
                   path={ROUTES.PRODUCT_DETAILS}
                   render={() => <ProductDetails products={products} />}
                 />
-                <Route path={ROUTES.PROFILE} component={Profile} />
-                <Route path={ROUTES.SIGN_IN} component={SignIn} />
-                <Route exact path={ROUTES.SIGN_UP} render={() => <SignUp />} />
+
+                <Route
+                  exact
+                  path={ROUTES.USER_PRODUCTS}
+                  render={() => <UserProducts />}
+                />
+
+                {/* Protected routes */}
+                <ProtectedRoute exact path={ROUTES.PROFILE}>
+                  <Profile />
+                </ProtectedRoute>
+
+                <ProtectedRoute exact path={ROUTES.EDIT_PROFILE}>
+                  <EditProfile user={user} />
+                </ProtectedRoute>
+
+                <ProtectedRoute exact path={ROUTES.ADD_PRODUCT}>
+                  <AddProduct />
+                </ProtectedRoute>
+
+                <ProtectedRoute exact path={ROUTES.EDIT_PRODUCT}>
+                  <EditProduct products={products} />
+                </ProtectedRoute>
+
+                <ProtectedRoute exact path={ROUTES.VIEW_CART}>
+                  <ViewCart />
+                </ProtectedRoute>
+
                 <Route component={Page404} />
               </Switch>
             </div>
