@@ -2,10 +2,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 60px auto;
+  margin: 10px auto;
   margin-top: 10px;
-  max-width: 40%;
+  max-width: 45%;
+  min-width: 250px;
   position: relative;
+  -webkit-box-shadow: 0px 0px 63px -21px rgba(0,0,0,0.4);
+  -moz-box-shadow: 0px 0px 63px -21px rgba(0,0,0,0.4);
+  box-shadow: 0px 0px 63px -21px rgba(0,0,0,0.4);
+  padding: 20px;
 }
 
 .edit-button {
@@ -15,29 +20,22 @@
   padding: 2px 6px;
   float: left;
   position: absolute;
-  bottom: 5px;
+  bottom: 10px;
   max-width: 120px;
 }
 
 .edit-button:hover {
-  /* background-color: #f60; */
   background-image: linear-gradient(to right, rgb(128, 252, 13), rgb(238, 255, 0));
   padding: 2px 7px;
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (max-width: 768px) {
-  .product-details {
-    max-width: 70%;
-  }
 }
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .product-details {
+    min-width: 100%;
     max-width: 100%;
   }
-
+  
   .buttonyard {
     display: flex;
     flex-direction: column;
@@ -45,13 +43,27 @@
     background-color: yellow;
   }
 }
-.product-details {
-  -webkit-box-shadow: 0px 0px 63px -21px rgba(0,0,0,0.4);
-  -moz-box-shadow: 0px 0px 63px -21px rgba(0,0,0,0.4);
-  box-shadow: 0px 0px 63px -21px rgba(0,0,0,0.4);
-  padding: 30px;
+
+/* Small devices (landscape tablets) between 601px and 768px*/
+@media (min-width: 601px) and (max-width: 768px) {
+  .product-details {
+    min-width: 80%;
+    width: 90%;
+  }
 }
 
-.edit-button {
-  bottom: 10px;
+/* Medium devices (laptops/desktops) between 769px and 992px*/
+@media (min-width: 769px) and (max-width: 992px) {
+  .product-details {
+    min-width: 55%;
+    max-width: 60%;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 993px) {
+  .product-details {
+    min-width: 47%;
+    max-width: 48%;
+  }
 }

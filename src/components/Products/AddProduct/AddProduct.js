@@ -1,14 +1,15 @@
 // Modules
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { pure } from "recompose";
 
-import { firebase } from "../../FirebaseAuth/FirebaseAuth";
+import { firebase } from "../../FirebaseAuth";
 
 import "./AddProduct.css";
 
 // Utils
 import clearErrorDiv from "../../../utils/clearErrorDiv";
-import validateForm from "../validateForm";
+import validateForm from "../../../utils/validateForm";
 
 // Material UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -52,8 +53,6 @@ function AddProduct() {
   const history = useHistory();
   const user = JSON.parse(window.localStorage.getItem("user"));
   const inputErrors = {}; // to hold validation errors if any.
-  console.log("user.uid (addProduct) is uid false?");
-  console.log(user === null);
 
   // id (auto-generated), name, type, location,
   // uid (from user oject), seller (from user oject),
@@ -70,7 +69,7 @@ function AddProduct() {
     image: "",
     uid: user ? user.uid : null,
     seller: user ? user.displayName : null,
-  };
+  }; // initialState
 
   // state
   const [state, setState] = useState(initialState);
@@ -83,24 +82,32 @@ function AddProduct() {
       ...state,
       [event.target.name]: event.target.value,
     });
-  };
+  }; // onChangeHandler
 
-  const onChangeQtyHandler = (event) => {
+  const onChangeNumValueHandler = (event) => {
     // If user provides a negative value, halt the operation.
-    if (event.target.value < 1) {
+    if (event.target.value < 1 || typeof(event.target.value) != 'number') {
       setState({
         ...state,
-        quantity: "",
+        [event.target.name]: 1,
       });
     } else {
       // Update only the quantity property.
-      setState({
-        ...state,
-        quantity: event.target.value,
-      });
+      if (typeof(event.target.value) === 'number') {
+        setState({
+          ...state,
+          [event.target.name]: event.target.value,
+        });
+      }
     }
-  }; // onChangeQtyHandler
+  }; // onChangeNumValueHandler
 
+  /**
+   * onFileChange sends uploaded file to db, then sets its 
+   * location url in the local state.
+   *
+   * @param {*} event
+   */
   const onFileChange = async (event) => {
     event.stopPropagation();
     const storage = firebase.storage();
@@ -117,6 +124,13 @@ function AddProduct() {
     } // if
   }; // onFileChange
 
+  /**
+   * onSubmitHandler grabs user input and relays it to the backend then updates
+   * respective report accordingly.
+   *
+   * @param {*} event
+   * @returns undefined
+   */
   const onSubmitHandler = (event) => {
     event.preventDefault();
     if (!user) {
@@ -132,30 +146,19 @@ function AddProduct() {
           .collection("products")
           .add(state)
           .then(() => {
-            setCreationSuccess("Success! Product added successfully."); // reset state
+            setCreationSuccess("Success! Product added successfully 😎😀");
             setState(initialState); // reset state
           })
           .catch((error) => {
             setError(error.message);
           });
-      }
-    }
+      } // else
+    } // else
   }; // onSubmitHandler
 
   return (
-    <Container className="add-product" component="main" maxWidth="xs">
+    <Container className="add-product" component="main" maxWidth="sm">
       <CssBaseline />
-      <div>
-        <h3>Notes:</h3>
-        <ol>
-          <li>Please sign up/login to add a product.</li>
-          <li>One can only edit or delete their own product.</li>
-          <li>Any user can view all products.</li>
-          <li>Adding to cart requires login.</li>
-          <li>Cart notifications are yet to be updated.</li>
-          <li>All fields are required.</li>
-        </ol>
-      </div>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <AddIcon fontSize="large" />
@@ -247,12 +250,13 @@ function AddProduct() {
                 variant="outlined"
                 required
                 fullWidth
+                type="number"
                 id="price"
                 label="Unit Price"
                 name="price"
                 placeholder="23.20"
                 value={state.price}
-                onChange={onChangeHandler}
+                onChange={onChangeNumValueHandler}
               />
             </Grid>
 
@@ -268,7 +272,7 @@ function AddProduct() {
                 id="quantity"
                 placeholder="1"
                 value={state.quantity}
-                onChange={onChangeQtyHandler}
+                onChange={onChangeNumValueHandler}
               />
             </Grid>
 
@@ -327,6 +331,7 @@ function AddProduct() {
                           width: 150,
                           height: 100,
                           marginTop: 5,
+                          objectFit: "cover",
                         }}
                       />
                     </>
@@ -338,7 +343,7 @@ function AddProduct() {
             </Grid>
 
             <Grid item xs={12}>
-            <label for="choose-image"></label>
+              <label labelfor="choose-image"></label>
               <input
                 className="image-picker"
                 type="file"
@@ -361,8 +366,9 @@ function AddProduct() {
                 marginTop: 15,
                 marginBottom: -15,
                 padding: 5,
-                paddingTop: 10,
-                height: 40,
+                paddingTop: "auto",
+                paddingBottom: "auto",
+                height: 50,
                 borderRadius: 5,
                 color: "#adff2f",
               }}
@@ -380,8 +386,9 @@ function AddProduct() {
                 marginTop: 15,
                 marginBottom: -15,
                 padding: 5,
-                paddingTop: 10,
-                height: 40,
+                paddingTop: "auto",
+                paddingBottom: "auto",
+                height: 50,
                 borderRadius: 5,
                 color: "red",
               }}
@@ -417,7 +424,7 @@ function AddProduct() {
   );
 } // AddProduct
 
-export default AddProduct;
+export default pure(AddProduct);
 
 /* 
 product fields: { 
@@ -429,4 +436,4 @@ product fields: {
 // requires login
 
 // Route:
-// POST /products/
+// POST /products/add

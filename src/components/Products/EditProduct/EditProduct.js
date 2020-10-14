@@ -1,12 +1,13 @@
 // Modules
 import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import { pure } from "recompose";
 
 import { firebase } from "../../FirebaseAuth/FirebaseAuth";
 
 // Utils
 import clearErrorDiv from "../../../utils/clearErrorDiv";
-import validateForm from "../validateForm";
+import validateForm from "../../../utils/validateForm";
 
 // Material UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -55,7 +56,7 @@ function EditProduct({ products }) {
   const user = JSON.parse(window.localStorage.getItem("user"));
   const inputErrors = {}; // to hold validation errors if any.
 
-  if (products === null) {
+  if (!products.length) {
     products = JSON.parse(window.localStorage.getItem("products"));
   }
 
@@ -67,14 +68,15 @@ function EditProduct({ products }) {
    * @returns {object} returns product object
    */
   function setProduct(products) {
-    let product;
+    let localProductArray;
     if (products !== null) {
-      product = products.filter((product) => product.id === id);
+      localProductArray = products.filter(
+        (product) => String(product.id) === String(id)
+      );
     }
-    return product[0];
+    return localProductArray[0];
   } // setProduct
-
-  const product = setProduct(products);
+  let product = setProduct(products);
 
   // id (auto-generated), name, type, location,
   // uid (from user oject), seller (from user oject),
@@ -107,18 +109,17 @@ function EditProduct({ products }) {
     });
   }; // onChangeHandler
 
-  const onChangeQtyHandler = (event) => {
+  const onChangeNumValueHandler = (event) => {
     // If user provides a negative value, halt the operation.
     if (event.target.value < 0) {
       return;
     } else {
-      // Update only the quantity property.
       setState({
         ...state,
-        quantity: event.target.value,
+        [event.target.name]: event.target.value,
       });
     }
-  }; // onChangeQtyHandler
+  }; // onChangeNumValueHandler
 
   const onFileChange = async (event) => {
     event.stopPropagation();
@@ -142,8 +143,9 @@ function EditProduct({ products }) {
     } // else
   }; // onFileChange
 
-  const onSubmitHandler = (evt) => {
-    evt.preventDefault();
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    
     if (!user) {
       window.alert("Failed! You must log in to edit a product!");
       history.push("/sign-up");
@@ -161,7 +163,7 @@ function EditProduct({ products }) {
             // Successful product edit.
             // Result will be undefined since the operation
             // doesn't return any value.
-            setUpdateSuccess("Success! Product updated successfully.");
+            setUpdateSuccess("Success! Product updated successfully 😎😀");
           })
           .catch((error) => {
             setError(error.message);
@@ -171,7 +173,7 @@ function EditProduct({ products }) {
   }; // onSubmitHandler
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -273,7 +275,7 @@ function EditProduct({ products }) {
                 name="price"
                 placeholder="23.20"
                 value={state.price}
-                onChange={onChangeHandler}
+                onChange={onChangeNumValueHandler}
               />
             </Grid>
 
@@ -289,7 +291,7 @@ function EditProduct({ products }) {
                 id="quantity"
                 placeholder="1"
                 value={state.quantity}
-                onChange={onChangeQtyHandler}
+                onChange={onChangeNumValueHandler}
               />
             </Grid>
 
@@ -336,6 +338,7 @@ function EditProduct({ products }) {
                       width: 150,
                       height: 100,
                       marginTop: 5,
+                      objectFit: "cover",
                     }}
                   />
                 </div>
@@ -360,6 +363,7 @@ function EditProduct({ products }) {
                           width: 150,
                           height: 100,
                           marginTop: 5,
+                          objectFit: "cover",
                         }}
                       />
                     </>
@@ -395,8 +399,9 @@ function EditProduct({ products }) {
                 marginTop: 15,
                 marginBottom: -15,
                 padding: 5,
-                paddingTop: 10,
-                height: 40,
+                paddingTop: "auto",
+                paddingBottom: "auto",
+                height: 50,
                 borderRadius: 5,
                 color: "#adff2f",
               }}
@@ -414,8 +419,9 @@ function EditProduct({ products }) {
                 marginTop: 15,
                 marginBottom: -15,
                 padding: 5,
-                paddingTop: 10,
-                height: 40,
+                paddingTop: "auto",
+                paddingBottom: "auto",
+                height: 50,
                 borderRadius: 5,
                 color: "red",
               }}
@@ -451,7 +457,7 @@ function EditProduct({ products }) {
   );
 } // EditProduct
 
-export default EditProduct;
+export default pure(EditProduct);
 
 /* 
 product fields: { 

@@ -1,6 +1,6 @@
 .products-view {
   width: 100%;
-  min-width: 160px;
+  min-width: 250px;
 }
 
 .products {
@@ -61,5 +61,18 @@
   
   #searchResultsReport {
     margin-bottom: 20px;
+  }
+
+  .product-card {
+    min-width: 90%;
+    max-width: 100%;
+  }
+}
+
+/* Small devices (landscape tablets) between 601px and 768px*/
+@media (min-width: 601px) and (max-width: 700px) {
+  .product-card {
+    min-width: 70%;
+    max-width: 70%;
   }
 }

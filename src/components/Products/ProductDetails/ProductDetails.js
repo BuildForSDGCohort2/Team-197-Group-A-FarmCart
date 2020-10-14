@@ -1,6 +1,7 @@
 // Modules
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import { pure } from "recompose";
 
 import { firebase } from "../../FirebaseAuth";
 import "./ProductDetails.css";
@@ -15,9 +16,10 @@ import DeleteProduct from "../DeleteProduct";
  * product details.
  *
  * @param {*} { products }
- * @returns {object} null || div
+ * @returns {object} null | div
  */
 function ProductDetails({ products }) {
+  let myCart = JSON.parse(window.localStorage.getItem("myCart"));
   const history = useHistory();
   let { id } = useParams();
   const user = JSON.parse(window.localStorage.getItem("user"));
@@ -28,16 +30,16 @@ function ProductDetails({ products }) {
     products = JSON.parse(window.localStorage.getItem("products"));
   }
 
-  let localProduct;
   function setProduct(products) {
+    let localProductArray;
     if (products !== null) {
-      localProduct = products.filter(
+      localProductArray = products.filter(
         (product) => String(product.id) === String(id)
       );
     }
-    return localProduct[0];
+    return localProductArray[0];
   }
-  localProduct = setProduct(products);
+  let localProduct = setProduct(products);
 
   const onClickHandler = () => {
     id = id.toString();
@@ -52,21 +54,22 @@ function ProductDetails({ products }) {
         .doc(id)
         .get()
         .then((product) => {
-          console.log("firestore product");
-          console.log(product.data());
           setFetchedProduct(product.data());
         })
         .catch((error) => {
           console.log(error);
         });
-    }
-    fetchProduct();
-  }, [id]);
+    } // fetchProduct
 
-  if (localProduct === null) {
+    fetchProduct();
+  }, [id]); // useEffect
+
+  const currentUserID = user ? user.uid : "";
+
+  if (!localProduct) {
     return null;
   } else {
-    const product = fetchedProduct ? fetchedProduct : localProduct;
+    const product = localProduct ? localProduct : fetchedProduct;
     
     return (
       <>
@@ -79,7 +82,7 @@ function ProductDetails({ products }) {
               style={{
                 height: 100,
                 width: 150,
-                padding: 3,
+                objectFit: "cover",
               }}
             />
             {user && user.uid === product.uid ? (
@@ -116,10 +119,12 @@ function ProductDetails({ products }) {
                 float: "right",
                 backgroundColor: "#d500f9",
                 borderRadius: "10%",
-                width: 50,
+                minWidth: 50,
+                paddingLeft: 5,
+                paddingRight: 5,
+                marginRight: 10,
                 textAlign: "center",
                 color: "white",
-                marginRight: 10,
               }}
             >
               {product.price}
@@ -159,7 +164,8 @@ function ProductDetails({ products }) {
             ) : (
               ""
             )}
-            <AddToCart id={product.id} />
+            {user && currentUserID === product.uid ? "" : <AddToCart className="add-to-cart" myCart={myCart} id={id} />}
+            {/* <AddToCart myCart={myCart} id={id} /> */}
           </div>
         </div>
       </>
@@ -167,7 +173,7 @@ function ProductDetails({ products }) {
   }
 } // ProductDetails
 
-export default ProductDetails;
+export default pure(ProductDetails);
 
 // Route:
 // GET /products/:id
