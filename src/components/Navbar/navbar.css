@@ -1,11 +1,25 @@
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  justify-self: space-between;
+}
+
+#display-pic {
+  margin-top: 15px;
+}
+
 .navbar {
   list-style-type: none;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  font-size: 0.8em;
+  justify-content: space-around;
+  font-size: 0.7em;
   font-weight: 600;
   max-width: 100%;
+}
+
+.logged-out, .logged-in {
+  display: none;
 }
 
 .navbar > li {
@@ -30,16 +44,30 @@
   margin-bottom: -3px;
 }
 
+.cart {
+  display: flex;
+  flex-direction: column;
+  justify-self: space-around;
+  align-items: center;
+  margin-top: 5px;
+  margin-left: 40px;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .navbar {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     font-size: 1.1em;
-    margin-left: -40px;
   }
 
   .navbar > li {
-    margin: 7px 5px;
+    margin: 5px auto;
+    margin-left: -40px;
+  }
+
+  #display-pic {
+    text-align: center;
   }
 }
