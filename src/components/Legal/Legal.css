@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 0 20%;
+}
+
+.active {
+  color: #fff;
+  text-decoration: none;
+}
+
+.active:hover {
+  color: orangered;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .container {
+    margin: 0 2%;
+  }
+
+  h1 {
+    font-size: 1.3em;
+  }
+}
