@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/storage";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 import "./FirebaseAuth.css";
 
@@ -16,11 +18,13 @@ const uiConfig = {
 firebase.initializeApp(uiConfig);
 
 /**
- * FirebaseAuth
+ * FirebaseAuth sets up firebase and handles all sign up
+ * and sign in functionalities.
  *
  * @returns {object} div
  */
 function FirebaseAuth() {
+  const history = useHistory();
   const [user, setUser] = useState(null);
 
   const uiConfig = {
@@ -35,28 +39,32 @@ function FirebaseAuth() {
     callbacks: {
       signInSuccess: () => false,
     },
-    signInSuccessUrl: "http://localhost:3000",
+    signInSuccessWithAuthResult: "/",
     // Terms of service url.
-    tosUrl: "http://localhost:3000/about",
+    tosUrl: "/tos",
     // Privacy policy url.
-    privacyPolicyUrl: "http://localhost:3000/contact-us",
+    privacyPolicyUrl: "/privacy",
   }; // uiConfig
 
   // Listen to login status
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       setUser(user);
-      // Create users collection if it doesn't exist.    
+      // Create users collection if it doesn't exist.
       // Add user to users collection if they aren't in it.
-      firebase.firestore().collection("users").doc(user.uid).set({
-        name: user.displayName,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        photoURL: user.photoURL,
-        createdAt: user.createdAt ? user.createdAt : "",
-        lastLoginAt: user.lastLoginAt ? user.lastLoginAt : "",
-        emailVerified: user.emailVerified,
-      });
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(user.uid)
+        .set({
+          name: user.displayName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          photoURL: user.photoURL,
+          createdAt: user.createdAt ? user.createdAt : "",
+          lastLoginAt: user.lastLoginAt ? user.lastLoginAt : "",
+          emailVerified: user.emailVerified,
+        });
 
       // Fetch cart if one exists for this user.
       firebase.firestore().collection("carts").doc().get();
@@ -70,27 +78,16 @@ function FirebaseAuth() {
   return (
     <div>
       {user ? (
-        <div style={{ alignItems: "center" }}>
-          You are logged in as {user["email"]}.<br />
-          <br />
-          <h5>name: {String(user.displayName)}</h5>
-          <p>email: {String(user.email)}</p>
-          <p>
-            <img
-              src={user.photoURL}
-              alt={user.photoURL}
-              style={{
-                width: "35%",
-                height: "35%",
-                borderRadius: "50%",
-              }}
-            />
-          </p>
-          <p>uid: {String(user.uid)}</p>
-          <p>{user.phoneNumber ? `phone: ${user.phoneNumber}` : ""}</p>
-          <br />
-          <p>{user.userToken ? `token: ${user.userToken}` : ""}</p>
-          <br />
+        <div>
+          {
+            // On successful login, redirect user to products
+            // page and reload page.
+            user &&
+              (() => {
+                history.push("/");
+                window.location.reload();
+              })()
+          }
         </div>
       ) : (
         <div>
