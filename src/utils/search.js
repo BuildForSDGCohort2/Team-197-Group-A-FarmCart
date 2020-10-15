@@ -1,5 +1,5 @@
 /**
- * search is a pure function that loops through the haystack 
+ * search is a pure function that loops through the haystack
  * in search of the needle.
  *
  * @param {*} needle string
@@ -8,29 +8,36 @@
  */
 function search(needle, haystack) {
   let results = [];
-  haystack = Array.from(haystack);
+  try {
+    haystack = Array.from(haystack);
 
-  if (needle.length > 0) {
-    needle = String(needle).toLocaleLowerCase();
-  } else {
-    return null;
+    if (needle.length > 0) {
+      needle = String(needle).toLocaleLowerCase();
+    } else {
+      return null;
+    }
+
+    haystack.map((obj) => {
+      const keys = Object.keys(obj);
+      // Might result in duplication since the needle may
+      // appear in several places within obj
+      return keys.forEach((key) => {
+        if (String(obj[key]).toLocaleLowerCase().includes(needle)) {
+          return results.push(obj);
+        }
+      });
+    }); // haystack.map
+
+    // Get rid of duplicates & convert the new set back to array
+    results = Array.from(new Set(results));
+
+    return results;
+  } catch (error) {
+    if (error) {
+      console.log(error.message);
+      return false;
+    }
   }
-
-  haystack.map((obj) => {
-    const keys = Object.keys(obj);
-    // Might result in duplication since the needle may
-    // appear in several places within obj
-    return keys.map((key) => {
-      if (String(obj[key]).toLocaleLowerCase().includes(needle)) {
-        return results.push(obj);
-      }
-    });
-  }); // haystack.map
-
-  // Get rid of duplicates & convert the new set back to array
-  results = Array.from(new Set(results));
-
-  return results;
 } // search
 
 export default search;
