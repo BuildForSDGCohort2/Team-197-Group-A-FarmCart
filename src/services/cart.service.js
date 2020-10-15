@@ -32,7 +32,7 @@ CartService.createCart = () => {
 }; // createCart
 
 /**
- * CartService.retrieveCart fetches the current user's cart
+ * CartService.retrieveCartFromDb fetches the current user's cart
  * from the database and puts it in the localStorage.
  *
  * @returns undefined
